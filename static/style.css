@@ -1,0 +1,157 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 0;
+
+    position: relative;
+}
+
+/* =========================
+   BACKGROUND LOGO
+========================= */
+body::before {
+
+    content: "";
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-image: url("Logo.jpeg");
+
+    background-repeat: no-repeat;
+
+    background-position: rightr;
+
+    background-size: 700px;
+
+    opacity: 1.10;
+
+    z-index: -1;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+.container {
+
+    width: 450px;
+
+    margin-top: 50px;
+
+    margin-bottom: 50px;
+
+    /* POSISI KE KANAN */
+    margin-left: auto;
+
+    margin-right: 80px;
+
+    padding: 30px;
+
+    border-radius: 16px;
+
+    background: rgba(255,255,255,0.96);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.12);
+
+    backdrop-filter: blur(5px);
+}
+/* =========================
+   TITLE
+========================= */
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+
+    color: #222;
+}
+
+/* =========================
+   FORM GROUP
+========================= */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* =========================
+   LABEL
+========================= */
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* =========================
+   INPUT
+========================= */
+input {
+    width: 100%;
+    padding: 8px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 6px;
+
+    font-size: 14px;
+
+    box-sizing: border-box;
+
+    transition: 0.2s;
+}
+
+/* INPUT FOCUS */
+input:focus {
+
+    border-color: #007bff;
+
+    outline: none;
+
+    box-shadow: 0 0 5px rgba(0,123,255,0.3);
+}
+
+/* READONLY */
+input[readonly] {
+
+    background-color: #f1f1f1;
+
+    cursor: not-allowed;
+}
+
+/* =========================
+   BUTTON
+========================= */
+button {
+
+    width: 100%;
+
+    padding: 10px;
+
+    background-color: #007bff;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 6px;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+/* BUTTON HOVER */
+button:hover {
+
+    background-color: #0056b3;
+
+    transform: translateY(-1px);
+}

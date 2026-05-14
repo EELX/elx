@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Invoice Generator</title>
+
+    <!-- Hubungkan ke CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Form Invoice</h2>
+
+    <form method="POST">
+
+        <!-- NO INVOICE -->
+        <div class="form-group">
+            <label>No Invoice</label>
+            <input name="invoice" required>
+        </div>
+
+        <!-- TANGGAL -->
+        <div class="form-group">
+            <label>Tanggal</label>
+            <input name="tanggal" required>
+        </div>
+
+        <!-- BULAN -->
+        <div class="form-group">
+            <label>Bulan</label>
+            <input
+                name="bulan"
+                placeholder="Februari"
+                required
+            >
+        </div>
+
+        <!-- TAHUN -->
+        <div class="form-group">
+            <label>Tahun</label>
+            <input
+                name="tahun"
+                placeholder="2026"
+                required
+            >
+        </div>
+
+        <!-- KOTA -->
+        <div class="form-group">
+            <label>Kota</label>
+            <input name="kota" required>
+        </div>
+
+        <!-- TERBILANG -->
+        <div class="form-group">
+            <label>Terbilang</label>
+
+            <input
+                name="terbilang"
+                readonly
+            >
+        </div>
+
+        <!-- QUANTITY -->
+        <div class="form-group">
+            <label>Quantity</label>
+            <input name="qty" required>
+        </div>
+
+        <!-- POKOK -->
+        <div class="form-group">
+            <label>Pokok</label>
+            <input name="pokok" required>
+        </div>
+
+        <!-- DPP -->
+        <div class="form-group">
+            <label>DPP</label>
+            <input name="dpp" required>
+        </div>
+
+        <!-- PPN -->
+        <div class="form-group">
+            <label>PPN</label>
+            <input name="ppn" required>
+        </div>
+
+        <!-- TOTAL -->
+        <div class="form-group">
+            <label>Total</label>
+
+            <input
+                name="total"
+                readonly
+            >
+        </div>
+
+        <!-- BUTTON -->
+        <button type="submit">
+            Generate PDF
+        </button>
+
+    </form>
+
+</div>
+
+<!-- =====================================
+SCRIPT TOTAL & TERBILANG
+===================================== -->
+<script>
+
+    const pokokInput =
+        document.querySelector('input[name="pokok"]');
+
+    const ppnInput =
+        document.querySelector('input[name="ppn"]');
+
+    const totalInput =
+        document.querySelector('input[name="total"]');
+
+    const terbilangInput =
+        document.querySelector('input[name="terbilang"]');
+
+    // =====================================
+    // FORMAT ANGKA
+    // =====================================
+    function formatAngka(input) {
+
+        let angka = input.value.replace(/\D/g, '');
+
+        input.value = Number(angka)
+            .toLocaleString('id-ID');
+    }
+
+    // =====================================
+    // TERBILANG
+    // =====================================
+    function angkaKeTerbilang(n) {
+
+        const bilangan = [
+            "", "Satu", "Dua", "Tiga", "Empat",
+            "Lima", "Enam", "Tujuh", "Delapan",
+            "Sembilan", "Sepuluh", "Sebelas"
+        ];
+
+        n = Math.floor(n);
+
+        if (n < 12)
+            return bilangan[n];
+
+        else if (n < 20)
+            return angkaKeTerbilang(n - 10) + " Belas";
+
+        else if (n < 100)
+            return angkaKeTerbilang(Math.floor(n / 10)) +
+                   " Puluh " +
+                   angkaKeTerbilang(n % 10);
+
+        else if (n < 200)
+            return "Seratus " +
+                   angkaKeTerbilang(n - 100);
+
+        else if (n < 1000)
+            return angkaKeTerbilang(Math.floor(n / 100)) +
+                   " Ratus " +
+                   angkaKeTerbilang(n % 100);
+
+        else if (n < 2000)
+            return "Seribu " +
+                   angkaKeTerbilang(n - 1000);
+
+        else if (n < 1000000)
+            return angkaKeTerbilang(Math.floor(n / 1000)) +
+                   " Ribu " +
+                   angkaKeTerbilang(n % 1000);
+
+        else if (n < 1000000000)
+            return angkaKeTerbilang(Math.floor(n / 1000000)) +
+                   " Juta " +
+                   angkaKeTerbilang(n % 1000000);
+
+        else
+            return "";
+    }
+
+    // =====================================
+    // HITUNG TOTAL
+    // =====================================
+    function hitungTotal() {
+
+        let pokok = parseInt(
+            pokokInput.value.replace(/\./g, '')
+        ) || 0;
+
+        let ppn = parseInt(
+            ppnInput.value.replace(/\./g, '')
+        ) || 0;
+
+        let total = pokok + ppn;
+
+        // TOTAL
+        totalInput.value =
+            total.toLocaleString('id-ID');
+
+        // TERBILANG
+        terbilangInput.value =
+            angkaKeTerbilang(total).trim() +
+            " Rupiah";
+    }
+
+    // =====================================
+    // EVENT
+    // =====================================
+    pokokInput.addEventListener('input', function() {
+
+        formatAngka(this);
+
+        hitungTotal();
+    });
+
+    ppnInput.addEventListener('input', function() {
+
+        formatAngka(this);
+
+        hitungTotal();
+    });
+
+    document.querySelector('input[name="dpp"]')
+        .addEventListener('input', function() {
+
+            formatAngka(this);
+        });
+
+    document.querySelector('input[name="qty"]')
+        .addEventListener('input', function() {
+
+            formatAngka(this);
+        });
+
+</script>
+
+</body>
+</html>
